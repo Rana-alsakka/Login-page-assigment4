@@ -1,21 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include<string>
+#include<regex>
 using namespace std;
 
 class loginManger {
 
-    string getFile(const char* login_file) {
-        string line;
-        fstream file;
-        file.open(login_file , ios::in);
-        if (file.is_open()) {
-            getline(file, line);
-        }
-        file.close();
-        return line;
-    }
-    void saveFile(string p_text, const char*);
     int encrypt(int p_letter){
         return p_letter + 3;
     }
@@ -47,6 +37,34 @@ public:
         }
     }
 
+    void saveFile(string p_line, const char* p_fileName)
+    {
+        fstream file;
+        file.open(p_fileName, ios::out);
+        for (int i = 0; i < p_line.length(); i++)
+        {
+            file << encrypt(p_line[i]);
+            file << "\n";
+        }
+        file<< "0";
+        file.close();
+    }
+
+    string getFile(const char* p_fileName) {
+        string line;
+        fstream file;
+        int eChar;
+        file.open(p_fileName, ios::in);
+        while (1) {
+           file>> eChar;
+            if (eChar == 0) {
+                file.close();
+                return line;
+            }
+            line += (char)decrypt(eChar);
+        }
+    }
+
 private:
         string password ;
         string username ;
@@ -63,8 +81,11 @@ int main() { int choice;
             << "4.exit"<< endl;
     cin >> choice;
        if( choice == 1) {
-           loginManger loginMangerObj;
-           loginMangerObj.login();
+           loginManger app;
+           app.saveFile("myname" , "user.data");
+           app.saveFile("lol233", "passwords.data");
+           app.login();
+           cin.get();
        }
        else if (choice ==2) {
            //  registration();
@@ -79,3 +100,12 @@ int main() { int choice;
             cout << " \t\t\t please select from the options above";
             main();
     }
+ void passCheck (){
+
+}
+void username_check(){
+
+}
+void email_check(){
+
+}
