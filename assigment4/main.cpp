@@ -38,7 +38,7 @@ public:
             cin >> passwordAttempt;
             password = getFile("passwords.data");
             if (passwordAttempt == password) {
-                cout <<"hello "<< username<< " you are successfully logged in";
+                cout <<"hello "<< username<< " you are successfully logged in \n\n\n\n\n\n";
                 cin.get();
             } else {
                 cout << " wrong username or password , please try again\n\n\n\n\n" << endl;
@@ -48,8 +48,8 @@ public:
     }
 
 private:
-        string password = "a";
-        string username = "a";
+        string password ;
+        string username ;
         string usernameAttempt;
         string passwordAttempt;
         bool accessGranted;
