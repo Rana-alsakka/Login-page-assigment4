@@ -32,7 +32,10 @@ public:
         }
     }
 
-    void addUser(const string username, const string password) {
+    void addUser(string username, string password) {
+        cout<< "please enter a username and password";
+        cin >> username;
+        cin >> password;
         if (checkFile(username, "user.data") != 0) {
             cout << " that username is not available" << endl;
             return;
@@ -59,6 +62,9 @@ public:
         istringstream(s) >> id;
         return id;
     }
+    void regist() {
+
+        }
 
     int checkFile(string attempt, const char *p_fileName) {
         string line;
@@ -91,6 +97,8 @@ public:
         }
     }
     void saveFile(string p_line, const char *p_fileName, int i1) {
+        cout<<" please enter username and password";
+        cin>>p_line;
         fstream file;
         file.open(p_fileName, ios::app);
         file.seekg(0, ios::end);
@@ -135,14 +143,12 @@ int main() { int choice;
        else if (choice ==2) {
            //  registration();
            loginManger app;
-           cout<<"please enter a username";
-           string uN;
-           cin>>uN;
-           app.addUser(uN,"user.data");
-           cout<< "please enter a password";
-           string pS;
-           cin >> pS;
-           app.addUser(uN,"passwords.data");
+           string username;
+           app.saveFile(username,"user.data",3);
+           string p_line;
+           cin>> p_line;
+           app.saveFile(p_line,"passwords.data", 2);
+
        }
        else if (choice ==3) {
            //  forgot();
