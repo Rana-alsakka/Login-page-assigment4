@@ -7,7 +7,11 @@ using namespace std;
 
 class loginManager{
 private:
+  string usernameAttempt;
+        string passwordAttempt;
+        bool accessGranted;
   
   
 public:
+  
 }
