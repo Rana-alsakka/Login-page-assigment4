@@ -4,3 +4,10 @@
 #include<sstream>
 #include<regex>
 using namespace std;
+
+class loginManager{
+private:
+  
+  
+public:
+}
