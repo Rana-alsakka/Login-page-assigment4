@@ -17,82 +17,63 @@ public:
         cout << "please enter your username and password" << endl << " username" << endl;
         cin >> usernameAttempt;
         fstream lData;
-        lData.open("users.txt" , ios::in);
-        lData>>username;
-        if (usernameAttempt==username) {
-            cout<< "password"<<endl;
-            cin>> passwordAttempt;
+        lData.open("users.txt", ios::in);
+        lData >> username;
+        if (usernameAttempt == username) {
+            cout << "password" << endl;
+            cin >> passwordAttempt;
             fstream plData;
-            plData.open ("passwordsData.txt", ios::in);
-            if (plData.is_open()){
-                string username;
-                while(getline(plData, password)){
+            plData.open("passwordsData.txt", ios::in);
+            if (plData.is_open()) {
+                while (getline(plData, password)) {
+                    if (passwordAttempt == password) {
+                        cout << "hello " << username << " you are successfully logged in!";
+                    }
                 }
+
                 plData.close();
             }
-            cout<<"hello "<<username<<" you are successfully logged in!";
+        } else {
+            cout << "wrong username please try again";
+            login();
+
         }
 
-        else {
-            cout<<"error";
-            return;
-        }
-    }
-
-
-    string getFile(const char*p_fileName) {
-        string line;
-        fstream file;
-        int eChar;
-        file.open(p_fileName, ios::in);
-        while(1)
-        {
-            file>> eChar;
-            if (eChar == 0 )
-            {
-                file.close();
-                cout << "error";
-                return line;
-
-            }
-            line += char(eChar);
-        }
     }
 
     void addUser() {
-        string username, password,pass2;
-        cout<< "please enter a username"<<endl;
+        string username, password, pass2;
+        cout << "please enter a username" << endl;
         cin >> username;
-        cout<< "please enter a password"<<endl;
+        cout << "please enter a password" << endl;
         cin >> password;
-        cout<< "please renter a password"<<endl;
-        cin >>pass2;
+        cout << "please renter a password" << endl;
+        cin >> pass2;
         if (checkFile(username, "users.txt") != 0) {
             cout << " that username is not available" << endl;
             return;
         }
-        if(password==pass2){
+        if (password == pass2) {
             ofstream uData;
-            uData.open ("users.txt");
-            uData<<username;
+            uData.open("users.txt");
+            uData << username;
             ofstream pData;
-            pData.open ("passwordsData.txt");
-            pData<<password;
-            cout<<"you are successfully registered\n\n\n";
-        }
-        else{
-            cout << "passwords didn't match please try again"<< endl;
+            pData.open("passwordsData.txt");
+            pData << password;
+            cout << "you are successfully registered\n\n\n";
+        } else {
+            cout << "passwords didn't match please try again" << endl;
             addUser();
         }
 
         int id = 1 + getlastID();
-        saveFile(username, "users.txt");
-        saveFile(password, "passwordsData.txt");
+        saveFile(username, "users.txt", id);
+        saveFile(password, "passwordsData.txt", id);
     }
 
     int getlastID() {
         fstream file;
-        file.open("user.data", ios::in);
+        file.open("users.txt", ios::in);
         file.seekg(0, ios::end);
         if (file.tellg() == -1)
             return 0;
@@ -120,7 +101,6 @@ public:
 
                 if (attempt == line) {
                     file.close();
-                    cout << "error";
                     currentChar.erase(0, 4);
                     int id;
                     istringstream(currentChar) >> id;
@@ -130,7 +110,7 @@ public:
                 }
             } else {
                 istringstream(currentChar) >> eChar;
-                line += (char)(eChar);
+                line += (char) decrypt(eChar);
                 currentChar = "";
             }
             if (file.peek() == EOF) {
@@ -139,9 +119,8 @@ public:
             }
         }
     }
-    void saveFile(string p_line, const char *p_fileName ) {
-        cin>>p_line;
-        int id;
+
+    void saveFile(string p_line, const char *p_fileName, int i1) {
         fstream file;
         file.open(p_fileName, ios::app);
         file.seekg(0, ios::end);
@@ -151,16 +130,39 @@ public:
         file.seekg(0, ios::beg);
 
         for (int i = 0; i < p_line.length(); i++) {
-            file << (p_line[i]);
+            file << encrypt(p_line[i]);
             file << "\n";
         }
+        int id;
         file << "#ID:" << id;
         file.close();
+    }
+
+    long long encrypt(int p_letter) {
+        return p_letter + 3;
+    }
+
+    int decrypt(long long p_letter) {
+        return p_letter - 3;
+    }
+    void changepass() {
+        string pass3;
+        login();
+        cout << "please enter your old password";
+        cin >> pass3;
+        fstream plData;
+        plData.open("passwordsData.txt", ios::in);
+        if (plData.is_open()) {
+            string username;
+            while (getline(plData, password)) {
+            }
+            plData.close();
+        }
+        cout << "hello " << username << " you are successfully logged in!";
     }
 private:
     string usernameAttempt;
     string passwordAttempt;
-    string username;
     string password;
     bool accessGranted;
 };
