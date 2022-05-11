@@ -9,6 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include<curses.h>
+#include<stdio.h>
 
 using namespace std;
 
@@ -20,37 +22,40 @@ public:
     {
         accessGranted = 0;
     }
-    void login()
-    {
-        cout << "please enter your username and password" << endl << " username" << endl;
-        cin >> userNameAttempt;
+    void login() {
+        int x = 1;
+        while (x < 3) {  // login attempts
+            cout << "please enter your username and password" << endl << " username" << endl;
+            cin >> userNameAttempt;
 
-        int usrID = checkFile(userNameAttempt, "users.dat");
-        if(usrID != 0)
-        {
-            cout << "Password:";
-            cin >> passwordAttempt;
+            int usrID = checkFile(userNameAttempt, "users.dat");
+            if (usrID != 0) {
+                cout << "Password:";
+                cin >> passwordAttempt;
+                int pwdID = checkFile(passwordAttempt, "pswds.dat");
+                if (usrID == pwdID) {
+                    cout << "hello " << userNameAttempt << " you are successfully logged in!" << endl;
+                    x = 0;
 
-            int pwdID = checkFile(passwordAttempt, "pswds.dat");
-            if(usrID == pwdID)
-            {
-                cout << "hello " << userNameAttempt << " you are successfully logged in!"<< endl;
+                } else {
+                    cout << "wrong username please try again" << endl;
+                    x++;
+
+                    if(x >3) {
+                        cout << "you've reached the maximum limit for attempting password , you are denied to access the system" << endl;
+                        break;}
+                    else{
+                        x++;
+                        cout<< x;
+                        login();
+                    }
+                }
+            } else {
+                cout << "wrong password please try again"<<endl;
                 login();
-
             }
-            else
-            {
-                cout << "wrong username please try again";
-                login();
-            }
-        }
-        else
-        {
-            cout << "wrong password please try again";
-            login();
         }
     }
-
 
     int getLastID()
     {
@@ -120,15 +125,70 @@ public:
             }
         }
     }
+void change() {
+    string newpass;
+    string newpass2;
+    cout << " please enter your old password";
+    cin >> passwordAttempt;
+    int usrID = checkFile(userNameAttempt, "users.dat");
+    int pwdID = checkFile(passwordAttempt, "pswds.dat");
+    if (usrID == pwdID) {
+        cout << "please enter your new password";
+        cin >> newpass;
+        cout << "please renter a password" << endl;
+        cin >> newpass2;
+        if (newpass2 == newpass) {
+           if (newpass == passwordAttempt ){
+               cout << "you can't use an old password"<< endl;
+               change();
+               return;
+           }
+        int id = pwdID;
+        fstream file;
+        file.open("pswds.dat", ios::app);
+        file.seekg(0, ios::end);
 
+        if(file.tellg() != 0)
+            file << "\n";
+
+        file.seekg(0, ios::beg);
+
+        for(int i = 0; i < newpass.length(); i++)
+        {
+            file << encrypt(newpass[i]);
+            file << "\n";
+        }
+
+        file << "#ID:" << id;
+        file.close();
+    cout<< " your password is successfully changed";
+    }
+        else {
+            cout<< "passwords don't match please try again";
+        }
+}}
     void saveFile()
     {
 
         string username ;
         string password;
+        int number;
+        string email;
         string pass2;
         cout << "please enter a username" << endl;
         cin >> username;
+        cout << "please enter your email"<< endl;
+        cin >> email;
+        fstream EData;
+        EData.open("emails.dat", ios::app);
+        EData<<email;
+        EData.close();
+        cout << "please enter your phone number"<<endl;
+        cin >> number;
+        fstream num;
+        num.open("numbers.dat", ios::app);
+        num<<number;
+        num.close();
         if(checkFile(username, "users.dat") != 0)
         {
             cout << "That username is not availble." << endl;
@@ -205,7 +265,7 @@ int main() {
     cout
             << "1.login" << endl
             << "2.register" << endl
-            << "3.forgot password" << endl
+            << "3.change password" << endl
             << "4.exit"<< endl;
     cin >> choice;
     if( choice == 1) {
@@ -221,6 +281,10 @@ int main() {
     }
     else if (choice ==3) {
         //  change password();
+        LoginManager app;
+        app.login();
+        app.change();
+
     }
     else if (choice ==4) {
         cout << " thank you ";
