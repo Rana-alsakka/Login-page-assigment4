@@ -63,7 +63,7 @@ public:
     {
         string username ;
         string password;
-        int number;
+        string number;
         string email;
         string pass2;
         cout << "please enter a username" << endl;
@@ -77,9 +77,10 @@ public:
         EData.close();
         cout << "please enter your phone number"<<endl;
         cin >> number;
+        phoneValidation(number);
         fstream num;
         num.open("numbers.dat", ios::app);
-        num<<number;
+        num<< "\n"<<number;
         num.close();
         if(checkFile(username, "users.dat") != 0) // checking if username available
         {
@@ -313,6 +314,36 @@ void change() {
           saveFile();
       }
   }
+  // -------------checking for phone number-----
+  int phoneValidation(string phone)
+{
+	char start = '0';
+	char start2= '1';
+
+	if (phone.length() != 11)			//check for length
+	{
+        cout<< "wrong phonenumber format , missing numbers";
+        showmenue();
+	}
+
+    for( int count = 0; count < phone.length(); count++ )	//loop to check each individual character
+    {
+    	if (!isdigit(phone[count]))		//checks all characters in phone if they are not digits
+    	{
+            cout<< "wrong phonenumber format , must be digits";
+            showmenue();
+		}
+		if (count==0 && phone[count] != start || count==1 && phone[count] != start2)//if it doesn't start with 01
+		{
+            cout<< "wrong phonenumber format , must start with (01)";
+            showmenue();
+		}
+		else{
+		return 0;
+	}}
+    return 0;
+}
+
   void showmenue(){
       int choice;
       cout << " \t\t\t ------------------------login page------------------------\n";
