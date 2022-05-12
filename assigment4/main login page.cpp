@@ -1,3 +1,4 @@
+
 // fci - programming 1 - 2022 - assigment 4
 // program name : login page
 // author 1 : Rana ayman barakat alsakka id : 20210511
@@ -11,6 +12,7 @@
 #include <math.h>
 #include<curses.h>
 #include<stdio.h>
+#include <regex>
 
 using namespace std;
 
@@ -22,41 +24,123 @@ public:
     {
         accessGranted = 0;
     }
+ //-----------------------------logging in-----------------------------------
     void login() {
-        int x = 1;
-        while (x < 3) {  // login attempts
-            cout << "please enter your username and password" << endl << " username" << endl;
-            cin >> userNameAttempt;
+     int x = 1;
+     while (x < 3) {  // login attempts
+         cout << "please enter your username and password" << endl << " username" << endl;
+         cin >> userNameAttempt;
 
-            int usrID = checkFile(userNameAttempt, "users.dat");
-            if (usrID != 0) {
-                cout << "Password:";
-                cin >> passwordAttempt;
-                int pwdID = checkFile(passwordAttempt, "pswds.dat");
-                if (usrID == pwdID) {
-                    cout << "hello " << userNameAttempt << " you are successfully logged in!" << endl;
-                    x = 0;
+         int usrID = checkFile(userNameAttempt, "users.dat"); //check for username
+         if (usrID != 0) { //if found
+             cout << "Password:";
+             cin >> passwordAttempt;
+             int pwdID = checkFile(passwordAttempt, "pswds.dat");
+             if (usrID == pwdID) { // check if the password belongs to this username
+                 cout << "hello " << userNameAttempt << " you are successfully logged in!" << endl;
+                 x = 0;
 
-                } else {
-                    cout << "wrong username please try again" << endl;
-                    x++;
+             } else {
+                 cout << "wrong username please try again" << endl;
+                 x++;
 
-                    if(x >3) {
-                        cout << "you've reached the maximum limit for attempting password , you are denied to access the system" << endl;
-                        break;}
-                    else{
-                        x++;
-                        cout<< x;
-                        login();
-                    }
-                }
-            } else {
-                cout << "wrong password please try again"<<endl;
-                login();
-            }
+                 if (x > 3) {
+                     cout
+                             << "you've reached the maximum limit for attempting password , you are denied to access the system"
+                             << endl;
+                     break;
+                 } else {
+                     x++;
+                     cout << x;
+                     login();
+                 }
+             }
+         } else {
+             cout << "wrong password please try again" << endl;
+             login();
+         }
+     }
+ }
+    //-----------------------------for adding users and saving them-----------------------------------
+    void saveFile()
+    {
+        string username ;
+        string password;
+        int number;
+        char email;
+        string pass2;
+        cout << "please enter a username" << endl;
+        cin >> username;
+        cout << "please enter your email"<< endl;
+        cin >> email;
+        validEmail(reinterpret_cast<char *>(email));
+        fstream EData;
+        EData.open("emails.dat", ios::app);
+        EData<<email;
+        EData.close();
+        cout << "please enter your phone number"<<endl;
+        cin >> number;
+        fstream num;
+        num.open("numbers.dat", ios::app);
+        num<<number;
+        num.close();
+        if(checkFile(username, "users.dat") != 0) // checking if username available
+        {
+            cout << "That username is not availble." << endl;
+            return;}
+
+        int id = 1 + getLastID();  // saving to file with new id
+        fstream file;
+        file.open("users.dat", ios::app);
+        file.seekg(0, ios::end);
+
+        if(file.tellg() != 0)
+            file << "\n";
+
+        file.seekg(0, ios::beg);
+
+        for(int i = 0; i < username.length(); i++)
+        {
+            file << encrypt(username[i]); // loop for encrypting username
+            file << "\n";
         }
+        file << "#ID:" << id;
+        file.close();
+        cout << "please enter a password" << endl;
+        cout << " *passwords must be 8 characters long & have at least one uppercase character and a number ";
+        cin >> password;
+        cout << "please renter a password" << endl;
+        cin >> pass2;
+        if (password == pass2) { // if password confirmation matches
+            checkPass(password);  // check for strong password
+            int id =  getLastID();
+            fstream file;
+            file.open("pswds.dat", ios::app);
+            file.seekg(0, ios::end);
+
+            if(file.tellg() != 0)
+                file << "\n";
+
+            file.seekg(0, ios::beg);
+
+            for(int i = 0; i < password.length(); i++)
+            {
+                file << encrypt(password[i]); // loop for encrypting password
+                file << "\n"; // saving it line by line
+            }
+
+            file << "#ID:" << id; //saving id with passwords data
+            file.close();
+            cout << "you are successfully registered\n\n\n";
+            login();
+        } else {
+            cout << "passwords didn't match please try again" << endl;
+            saveFile();
+        }
+
     }
 
+ //------------------------saving users and passwords information with id-----------------------------------
     int getLastID()
     {
         fstream file;
@@ -83,6 +167,7 @@ public:
         return id;
     }
 
+//-----------------------------checking data files-----------------------------------
     int checkFile(string attempt, const char* p_fileName)
     {
         string line;
@@ -125,6 +210,7 @@ public:
             }
         }
     }
+//-----------------------------change password-----------------------------------
 void change() {
     string newpass;
     string newpass2;
@@ -137,13 +223,14 @@ void change() {
         cin >> newpass;
         cout << "please renter a password" << endl;
         cin >> newpass2;
-        if (newpass2 == newpass) {
+        if (newpass2 == newpass) { // check if passwords match
+            checkPass(newpass); // check for strong password
            if (newpass == passwordAttempt ){
-               cout << "you can't use an old password"<< endl;
+               cout << "you can't use an old password"<< endl; //check for old password
                change();
                return;
            }
-        int id = pwdID;
+        int id = pwdID;     // to save to the same id for the user not new one
         fstream file;
         file.open("pswds.dat", ios::app);
         file.seekg(0, ios::end);
@@ -155,7 +242,7 @@ void change() {
 
         for(int i = 0; i < newpass.length(); i++)
         {
-            file << encrypt(newpass[i]);
+            file << encrypt(newpass[i]); // loop for encrypting password
             file << "\n";
         }
 
@@ -167,83 +254,7 @@ void change() {
             cout<< "passwords don't match please try again";
         }
 }}
-    void saveFile()
-    {
-
-        string username ;
-        string password;
-        int number;
-        string email;
-        string pass2;
-        cout << "please enter a username" << endl;
-        cin >> username;
-        cout << "please enter your email"<< endl;
-        cin >> email;
-        fstream EData;
-        EData.open("emails.dat", ios::app);
-        EData<<email;
-        EData.close();
-        cout << "please enter your phone number"<<endl;
-        cin >> number;
-        fstream num;
-        num.open("numbers.dat", ios::app);
-        num<<number;
-        num.close();
-        if(checkFile(username, "users.dat") != 0)
-        {
-            cout << "That username is not availble." << endl;
-            return;}
-
-        int id = 1 + getLastID();
-        fstream file;
-        file.open("users.dat", ios::app);
-        file.seekg(0, ios::end);
-
-        if(file.tellg() != 0)
-            file << "\n";
-
-        file.seekg(0, ios::beg);
-
-        for(int i = 0; i < username.length(); i++)
-        {
-            file << encrypt(username[i]);
-            file << "\n";
-        }
-
-        file << "#ID:" << id;
-        file.close();
-        cout << "please enter a password" << endl;
-        cin >> password;
-        cout << "please renter a password" << endl;
-        cin >> pass2;
-        if (password == pass2) {
-            int id =  getLastID();
-            fstream file;
-            file.open("pswds.dat", ios::app);
-            file.seekg(0, ios::end);
-
-            if(file.tellg() != 0)
-                file << "\n";
-
-            file.seekg(0, ios::beg);
-
-            for(int i = 0; i < password.length(); i++)
-            {
-                file << encrypt(password[i]);
-                file << "\n";
-            }
-
-            file << "#ID:" << id;
-            file.close();
-            cout << "you are successfully registered\n\n\n";
-            login();
-        } else {
-            cout << "passwords didn't match please try again" << endl;
-saveFile();
-        }
-
-    }
-
+//-----------------------------encryption and decryption-----------------------------------
     long long encrypt(int p_letter)
     {
         return powf(p_letter, 5) * 4 - 14;
@@ -252,6 +263,69 @@ saveFile();
     {
         return powf((p_letter + 14) / 4, 1/5.f);
     }
+
+//-----------------------------checking for proper formats-----------------------------------
+
+//-----------password------------------
+    int checkPass(string pw) {
+        bool upper_case = false;
+        bool lower_case = false;
+        bool number_case = false;
+        bool special_char = false;
+
+
+        std::regex upper_case_expression{"[A-Z]+"}; // upper case
+        std::regex lower_case_expression{"[a-z]+"}; //for lower-case
+        std::regex number_expression{"[0-9]+"}; //...
+        std::regex special_char_expression{"[@!?]+"};
+
+        bool done = false;
+
+        do {
+
+            if (pw.length() <= 8) { //check for password length
+                std::cout << "Invalid password! Try again . . .\n\n";
+                saveFile();
+            } else {
+
+                upper_case = std::regex_search(pw, upper_case_expression);
+                lower_case = std::regex_search(pw, lower_case_expression);
+                number_case = std::regex_search(pw, number_expression);
+                special_char = std::regex_search(pw, special_char_expression);
+                int sum_of_positive_results = upper_case + lower_case + number_case + special_char;
+
+                if (sum_of_positive_results < 3) {
+                    std::cout << "Invalid password! Try again . . .\n\n";
+                    saveFile();
+                } else {
+                    done = true;
+                }
+            }
+
+        } while (!done);
+
+        return 0;
+    }
+  //----------checking for  Email----------------------
+  bool validEmail(char *email) {
+      auto at_pos = std::strchr(email, '@');
+
+      if (at_pos == nullptr)
+          return false; // did not find an '@'
+          cout<<"wrong email format";
+
+      auto dot_pos = std::strchr(email, '.');
+
+      if (dot_pos == nullptr)
+          return false; // did not find an '.'
+          cout<<"wrong email format";
+
+      if (dot_pos < at_pos)
+          return false; // '.' found before '@'
+       cout<<"wrong email format";
+
+      return true;
+  }
 
 private:
     string userNameAttempt;
