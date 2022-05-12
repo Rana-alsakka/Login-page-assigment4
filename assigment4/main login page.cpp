@@ -68,6 +68,7 @@ public:
         string pass2;
         cout << "please enter a username" << endl;
         cin >> username;
+        userFormat(username);
         cout << "please enter your email"<< endl;
         cin >> email;
         validEmail(email);
@@ -343,6 +344,39 @@ void change() {
 	}}
     return 0;
 }
+//-----------check username format--------
+ int userFormat( string username){
+        bool number_case = false;
+        bool special_char = false;
+
+        std::regex number_expression{"[0-9]+"}; //...
+        std::regex special_char_expression{"[@!?]+"};
+
+        bool done = false;
+
+        do {
+
+            if (username.length() <= 2) { //check for username length
+                std::cout << "Invalid user(too short)! Try again . . .\n\n";
+                showmenue();
+            } else {
+
+                number_case = std::regex_search(username, number_expression);
+                special_char = std::regex_search(username, special_char_expression);
+                int sum_of_positive_results = number_case + special_char;
+
+                if (sum_of_positive_results > 0) {
+                    std::cout << "Invalid username(username can't have numbers or special characters, please Try again \n\n";
+                    showmenue();
+                } else {
+                    done = true;
+                }
+            }
+
+        } while (!done);
+
+        return 0;
+        }
 
   void showmenue(){
       int choice;
