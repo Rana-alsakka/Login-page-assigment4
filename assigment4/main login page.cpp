@@ -1,4 +1,3 @@
-
 // fci - programming 1 - 2022 - assigment 4
 // program name : login page
 // author 1 : Rana ayman barakat alsakka id : 20210511
@@ -39,7 +38,7 @@ public:
              if (usrID == pwdID) { // check if the password belongs to this username
                  cout << "hello " << userNameAttempt << " you are successfully logged in!" << endl;
                  x = 0;
-
+                 break;
              } else {
                  cout << "wrong username please try again" << endl;
                  x++;
@@ -52,12 +51,10 @@ public:
                  } else {
                      x++;
                      cout << x;
-                     login();
                  }
              }
          } else {
              cout << "wrong password please try again" << endl;
-             login();
          }
      }
  }
@@ -67,16 +64,16 @@ public:
         string username ;
         string password;
         int number;
-        char email;
+        string email;
         string pass2;
         cout << "please enter a username" << endl;
         cin >> username;
         cout << "please enter your email"<< endl;
         cin >> email;
-        validEmail(reinterpret_cast<char *>(email));
+        validEmail(email);
         fstream EData;
         EData.open("emails.dat", ios::app);
-        EData<<email;
+        EData<< "\n"<<email;
         EData.close();
         cout << "please enter your phone number"<<endl;
         cin >> number;
@@ -107,7 +104,7 @@ public:
         file << "#ID:" << id;
         file.close();
         cout << "please enter a password" << endl;
-        cout << " *passwords must be 8 characters long & have at least one uppercase character and a number ";
+        cout << " *passwords must be 8 characters long & have at least one uppercase character and a number "<<endl;
         cin >> password;
         cout << "please renter a password" << endl;
         cin >> pass2;
@@ -285,7 +282,7 @@ void change() {
 
             if (pw.length() <= 8) { //check for password length
                 std::cout << "Invalid password! Try again . . .\n\n";
-                saveFile();
+                showmenue();
             } else {
 
                 upper_case = std::regex_search(pw, upper_case_expression);
@@ -296,7 +293,7 @@ void change() {
 
                 if (sum_of_positive_results < 3) {
                     std::cout << "Invalid password! Try again . . .\n\n";
-                    saveFile();
+                    showmenue();
                 } else {
                     done = true;
                 }
@@ -307,24 +304,47 @@ void change() {
         return 0;
     }
   //----------checking for  Email----------------------
-  bool validEmail(char *email) {
-      auto at_pos = std::strchr(email, '@');
+  int validEmail(string email) {
+      if (regex_match(email, regex("([a-z]+)([_.a-z0-9]*)([a-z0-9]+)(@)([a-z]+)([.a-z]+)([a-z]+)"))){
+          return 0;
+      }
+      else {
+          cout << "wrong email format\n";
+          saveFile();
+      }
+  }
+  void showmenue(){
+      int choice;
+      cout << " \t\t\t ------------------------login page------------------------\n";
+      cout
+              << "1.login" << endl
+              << "2.register" << endl
+              << "3.change password" << endl
+              << "4.exit"<< endl;
+      cin >> choice;
+      if( choice == 1) {
+          LoginManager app;
+          app.login();
+          cin.get();
+      }
+      else if (choice ==2) {
+          //  registration();
+          LoginManager loginMangerObj;
+          loginMangerObj.saveFile();
 
-      if (at_pos == nullptr)
-          return false; // did not find an '@'
-          cout<<"wrong email format";
+      }
+      else if (choice ==3) {
+          //  change password();
+          LoginManager app;
+          app.login();
+          app.change();
 
-      auto dot_pos = std::strchr(email, '.');
-
-      if (dot_pos == nullptr)
-          return false; // did not find an '.'
-          cout<<"wrong email format";
-
-      if (dot_pos < at_pos)
-          return false; // '.' found before '@'
-       cout<<"wrong email format";
-
-      return true;
+      }
+      else if (choice ==4) {
+          cout << " thank you ";
+      }
+      else
+          cout << " \t\t\t please select from the options above";
   }
 
 private:
@@ -332,37 +352,7 @@ private:
     string passwordAttempt;
     bool accessGranted;
 };
-
 int main() {
-    int choice;
-    cout << " \t\t\t ------------------------login page------------------------\n";
-    cout
-            << "1.login" << endl
-            << "2.register" << endl
-            << "3.change password" << endl
-            << "4.exit"<< endl;
-    cin >> choice;
-    if( choice == 1) {
-        LoginManager app;
-        app.login();
-        cin.get();
-    }
-    else if (choice ==2) {
-        //  registration();
-        LoginManager loginMangerObj;
-        loginMangerObj.saveFile();
-
-    }
-    else if (choice ==3) {
-        //  change password();
-        LoginManager app;
-        app.login();
-        app.change();
-
-    }
-    else if (choice ==4) {
-        cout << " thank you ";
-    }
-    else
-        cout << " \t\t\t please select from the options above";
+    LoginManager app;
+    app.showmenue();
 }
