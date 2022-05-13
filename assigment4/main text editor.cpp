@@ -54,22 +54,18 @@ int main()
 			switch (choice) {
 			case 1: {
 
-				yourFile.open(fileName, ios::app);
-
-
-				system("cls");
-				cout << "Enter the new text:";
-
-				while (newtext == "") {
-					getline(cin, newtext);
-					yourFile << newtext << "\n";
-
-				}
-				yourFile.close();
-				system("cls");
-				cout << "file has been updated succeessfully!\n\n";
-
-				break;
+				 case 1: {
+                yourFile.open(fileName, ios::app);
+                cin.ignore();
+                if (con == true) {
+                    cout << "Enter the new text:\n";
+                    cin>> newtext;
+                    yourFile << newtext << "\n";
+                    yourFile.close();
+                    cout << "file has been updated succeessfully!\n\n";
+                    break;
+                }
+            }
 
 
 
