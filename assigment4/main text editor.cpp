@@ -232,6 +232,32 @@ int main()
                     }
                     return 0; //exiting program.
                 }
+	         case 11 : {
+                    string input_file, wordToFind, line;
+                    while (1) {
+                        cin.ignore();
+                        int count = 0,line_Number=0;
+                        cout << "\nWord to find: ";
+                        getline(cin, wordToFind); //getting the word
+                        ifstream file(fileName); // opening file input stream.
+                        if (file) {
+                            while (getline(file, line)) //reading file lines
+                            {
+                                line_Number++;
+                                int position = 0;
+                                for (int i = line.find(wordToFind); i < line.length(); i = i + position) {
+                                    position=line.find(wordToFind,i);
+                                    if (position != string::npos) {
+                                        {count++;}
+                                        cout << " your word has been found " << count << " times"<< "in "<< line_Number<<":"<<position<<endl;
+                                        break;
+                                    } else break;
+                                }
+                            }
+                            file.close();
+
+                        }
+                    }
 
 			}//switch bracket
 
