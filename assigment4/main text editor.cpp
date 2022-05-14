@@ -52,7 +52,7 @@ int main()
 
 
 			switch (choice) {
-			case 1: {
+			
 
 				 case 1: {
               yourFile.open(fileName, ios::app);
@@ -73,7 +73,7 @@ int main()
 
 
 
-			}
+			
 			case 2: {
 
 				fstream yourFile;
