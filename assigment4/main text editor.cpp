@@ -193,6 +193,45 @@ int main()
 
 
 			}
+		case 10: {
+                    string input_file,wordToFind,line;
+                    while (1)
+                    {
+                        cin.ignore();
+                        int line_Number=0,found=0;
+                        cout<<"\nWord to find: "; getline(cin,wordToFind); //getting the word
+                        ifstream file(fileName); // opening file input stream.
+                        if(file)
+                        {
+                            while(getline(file,line)) //reading file lines
+                            {
+                                line_Number++;
+                                int position=0;
+                                for(int i=line.find(wordToFind); i<line.length(); i=i+position)
+                                {
+                                    position=line.find(wordToFind,i);
+                                    if(position != string::npos)
+                                    {
+                                        cout<<endl<<wordToFind<<" is at "<<line_Number<<":"<<position<<endl; // print the position of word.
+                                        found=1;
+                                        break;
+                                    }
+                                    else break;
+                                }
+                            }
+                            file.close();
+                            if(found==0)
+                            {
+                                cout<<endl<<wordToFind<<" not in file"<<endl;
+                            }
+                        }
+                        else
+                        {
+                            cout<<endl<<input_file<<" not found" <<endl; //file not available
+                        }
+                    }
+                    return 0; //exiting program.
+                }
 
 			}//switch bracket
 
