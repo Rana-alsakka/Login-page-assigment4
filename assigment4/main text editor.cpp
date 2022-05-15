@@ -176,23 +176,20 @@ int main()
 				}
 			}
 			case 7: {
-				fstream yourFile;
-				yourFile.open(fileName, ios::in);
-				char ch;
-				int word = 0;
-				yourFile.seekg(0, ios::beg);
+				 ifstream yourFile;
+                  		  string word;
+                  		  int count = 0;
+                  		  yourFile.open(fileName);
+                  		  while(!yourFile.eof())
+                 			   {
+                   		     yourFile>> word;
+                  		      count++;
+                 					   }
+                 	   cout<< "numbers of words in this file is "<< count<< endl;
+                 	   yourFile.close();
+                    		break;
 
-				while (yourFile) {
-					yourFile.get(ch);
-					if (ch == ' ' || ch == '\n')
-						word++;
-				}
-				yourFile.close();
-				system("cls");
-				cout << "File words = " << word << '\n\n\n\n';
-
-
-			}
+					}
 		case 10: {
                     string input_file,wordToFind,line;
                     while (1)
