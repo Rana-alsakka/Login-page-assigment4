@@ -190,6 +190,47 @@ int main()
                     		break;
 
 					}
+					case 8: {
+				char line[100];
+				int i, len, count = 0;
+
+				fstream yourFile;
+				yourFile.open(fileName, ios::in);
+				
+				while (yourFile.eof()==0) {
+					yourFile.getline(line, sizeof(line));
+					len = strlen(line);
+					for (i = 0; i < len; ++i) {
+						++count;
+						
+					}
+
+				}
+				yourFile.close();
+				system("cls");
+				cout <<"No.of characters in the file are : " << count << "\n\n\n";
+				break;
+			}
+			case 9: {
+				fstream yourFile;
+				yourFile.open(fileName, ios::in);
+				char ch;
+				int lines = 1;
+				string text;
+				yourFile.seekg(0, ios::beg);
+				while (yourFile) {
+					yourFile.get(ch);
+					if (ch == '\n') {
+						lines++;
+					}
+				}
+				yourFile.close();
+				system("cls");
+				cout << "File lines = " << lines << '\n\n\n\n';
+
+				break;
+
+			}
 		case 10: {
                     string input_file,wordToFind,line;
                     while (1)
