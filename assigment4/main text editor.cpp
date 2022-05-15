@@ -2,9 +2,11 @@
 #include <string>
 #include <cstring>
 #include <fstream>
-#include <stdio.h>
-#include "textEditor.h"
-#include "main text editor.h"
+#include <cctype>
+#include <algorithm>
+#include <iterator>
+#include<sstream>
+
 
 using namespace std;
 
