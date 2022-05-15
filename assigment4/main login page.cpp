@@ -112,7 +112,7 @@ public:
         cin >> pass2;
         if (password == pass2) { // if password confirmation matches
             checkPass(password);  // check for strong password
-            int id =  getLastID();
+            int id =  1 + getLastID();
             fstream file;
             file.open("pswds.dat", ios::app);
             file.seekg(0, ios::end);
