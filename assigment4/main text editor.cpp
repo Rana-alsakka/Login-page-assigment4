@@ -216,24 +216,21 @@ int main() {
 					break;
 				}
 				case 9: {
-					fstream yourFile;
-					yourFile.open(fileName, ios::in);
-					char ch;
-					int lines = 1;
-					string text;
-					
-					while (!yourFile.eof()) {
-						yourFile.get(ch);
-						if (ch == '\n') {
-							lines++;
-						}
-					}
-					yourFile.close();
-					system("cls");
-					cout << "File lines = " << lines << '\n\n\n\n';
+                       			 ifstream yourFile(fileName);
+                        		int ltotal;
+                     		        string text;
+                    		        if (yourFile.is_open()) {
+                            	        while (yourFile.peek() != EOF) {
+                               	        getline(yourFile, text);
+                             	        ltotal++;
+                      	    				  }
+                   						     }
+                        			yourFile.close();
+                      				  system("cls");
+                   		     cout << "File lines = " << ltotal << "\n\n\n\n";
 
-					break;
-
+                   						     break;
+                 							   }
 				}
 				case 10: {
 					string input_file, wordToFind, line;
