@@ -258,7 +258,69 @@ int main()
 
                         }
                     }
+			 case 12 : {
+                    ifstream yourFile;
+                    yourFile.open(fileName);
+                    stringstream textStream;
+                    textStream<< yourFile.rdbuf();
+                    string text = textStream.str();
+                    yourFile.close();
+                    ofstream yourFile2;
+                    yourFile2.open(fileName, ios::trunc);
+                    for (int x = 0; x < text.length(); x++) {
+                        text[x] = toupper(text[x]);
+                    }
+                    yourFile2 << text;
+                    yourFile2.close();
+                    cout << "file has been turned to uppercase successffully!\n\n";
+                    break;
 
+                }
+                case 13 : {
+                    ifstream yourFile;
+                    yourFile.open(fileName);
+                    stringstream textStream;
+                    textStream<< yourFile.rdbuf();
+                    string text = textStream.str();
+                    yourFile.close();
+                    ofstream yourFile2;
+                    yourFile2.open(fileName, ios::trunc);
+                        for (int x = 0; x < text.length(); x++) {
+                                text[x] = tolower(text[x]);
+                        }
+                        yourFile2 << text;
+                        yourFile2.close();
+                        cout << "file has been turned to lowercase successffully!\n\n";
+                        break;
+
+                }
+                case 14: {
+                    ifstream yourFile;
+                    yourFile.open(fileName);
+                    stringstream textStream;
+                    textStream<< yourFile.rdbuf();
+                    string text = textStream.str();
+                    yourFile.close();
+                    ofstream yourFile2;
+                    yourFile2.open(fileName, ios::trunc);
+                    while (text != "0") {
+                        for (int x = 0; x < text.length(); x++) {
+                            if (x == 0) {
+                                text[x] = toupper(text[x]);
+                            } else if (text[x - 1] == ' ') {
+                                text[x] = toupper(text[x]);
+                            }
+                        }
+                        yourFile2 << text;
+                        yourFile2.close();
+                        cout << "file has been turned succeessfully!\n\n";
+                        break;
+                    }
+			 
+			 
+			 
+			 
+		 }
 			}//switch bracket
 
 
