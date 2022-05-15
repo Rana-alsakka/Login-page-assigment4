@@ -1,3 +1,10 @@
+// fci - programming 1 - 2022 - assigment 4
+// program name : Text editor
+// author 1 : Rana ayman barakat alsakka id : 20210511
+// author 2 : sahab mohammed abd el rahman id : 20210158
+// author 3 : mohanad hesham id : 20210414
+// teaching assistant : s5 - s6
+// -------------------------------------------------------------------------------
 #include <iostream>
 #include <string>
 #include <cstring>
