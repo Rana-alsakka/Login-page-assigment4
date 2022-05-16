@@ -12,6 +12,8 @@
 #include<curses.h>
 #include<stdio.h>
 #include <regex>
+#include<coonio.h>
+#include<stdlib.h>
 
 using namespace std;
 
@@ -34,7 +36,7 @@ public:
          if (usrID != 0) { //if found
              cout << "Password:";
 		 
-		  char passwordAttempt[16] = { 0 };
+	         char passwordAttempt[16] = { 0 };
  	  	 int i;
    		 for (i = 0; i < 16;i++) {
      	  	 passwordAttempt[i] = _getch(); _putch('*');
@@ -115,8 +117,26 @@ public:
         file.close();
         cout << "please enter a password" << endl;
         cout << " *passwords must be 8 characters long & have at least one uppercase character and a number "<<endl;
+	    
+	      char password[16] = { 0 };
+ 	  	 int i;
+   		 for (i = 0; i < 16;i++) {
+     	  	 password[i] = _getch(); _putch('*');
+       		
+		 }
+	    
+	    
         cin >> password;
         cout << "please renter a password" << endl;
+	    
+	     char password2[16] = { 0 };
+ 	  	 int i;
+   		 for (i = 0; i < 16;i++) {
+     	  	 password2[i] = _getch(); _putch('*');
+       		
+		 }
+	    
+	    
         cin >> pass2;
         if (password == pass2) { // if password confirmation matches
             checkPass(password);  // check for strong password
@@ -227,8 +247,26 @@ void change() {
     int pwdID = checkFile(passwordAttempt, "pswds.dat");
     if (usrID == pwdID) {
         cout << "please enter your new password";
+	    
+	     char newpass[16] = { 0 };
+ 	  	 int i;
+   		 for (i = 0; i < 16;i++) {
+     	  	 newpass[i] = _getch(); _putch('*');
+       		
+		 }
+	    
         cin >> newpass;
         cout << "please renter a password" << endl;
+	    
+	     char newpass2[16] = { 0 };
+ 	  	 int i;
+   		 for (i = 0; i < 16;i++) {
+     	  	 newpass2[i] = _getch(); _putch('*');
+       		
+		 }
+	    
+	    
+	    
         cin >> newpass2;
         if (newpass2 == newpass) { // check if passwords match
             checkPass(newpass); // check for strong password
