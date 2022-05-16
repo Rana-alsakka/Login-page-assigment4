@@ -16,7 +16,7 @@ void textEditor::displayMenu()
 		"7. Count the number of words in the file\n" <<
 		"8. Count the number of characters in the file\n" <<
 		"9. Count the number of lines in the file\n" <<
-		"10. Search for a word in the file\n" <<
+		"10. Search for a word in the file\n" << 
 		"11. Count the number of times a word exists in the file\n" <<
 		"12. Turn the file content to upper case\n" <<
 		"13. Turn the file content to lower case\n" <<
