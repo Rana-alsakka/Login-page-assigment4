@@ -6,3 +6,8 @@ public:
     {
         accessGranted = 0;
     }
+private:
+    string userNameAttempt;
+    string passwordAttempt;
+    bool accessGranted;
+};
