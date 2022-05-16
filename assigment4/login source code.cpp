@@ -39,7 +39,7 @@ public:
    		 for (i = 0; i < 16;i++) {
      	  	 passwordAttempt[i] = _getch(); _putch('*');
        		
-		 
+		 }
 		 
              cin >> passwordAttempt;
              int pwdID = checkFile(passwordAttempt, "pswds.dat");
