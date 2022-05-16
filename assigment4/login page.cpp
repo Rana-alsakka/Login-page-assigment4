@@ -46,7 +46,7 @@ void login() {
                 cout << "wrong password please try again" << endl;
             }
         }
-    }
+    } 
     //-----------------------------for adding users and saving them-----------------------------------
     void saveFile()
     {
