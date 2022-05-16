@@ -184,7 +184,7 @@ int main() {
 						cout << "Files have merged successfully.\n\n\n";
 						break;
 					}
-				}
+				} 
 				case 7: {
 					ifstream yourFile;
 					string word;
