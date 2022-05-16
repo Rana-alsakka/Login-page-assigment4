@@ -29,7 +29,7 @@ public:
     //-----------------------------logging in-----------------------------------
     void login() {
         int x = 1;
-        while (x < 3) {  // login attempts
+        while (x < 3) {  // login attempts 
             cout << "please enter your username and password" << endl << " username" << endl;
             cin >> userNameAttempt;
 
