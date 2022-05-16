@@ -12,6 +12,7 @@
 #include<curses.h>
 #include<stdio.h>
 #include <regex>
+#include"login page.h"
 
 using namespace std;
 
