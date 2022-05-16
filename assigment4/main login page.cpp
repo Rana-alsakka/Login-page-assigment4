@@ -33,6 +33,14 @@ public:
          int usrID = checkFile(userNameAttempt, "users.dat"); //check for username
          if (usrID != 0) { //if found
              cout << "Password:";
+		 
+		  char passwordAttempt[16] = { 0 };
+ 	  	 int i;
+   		 for (i = 0; i < 16;i++) {
+     	  	 passwordAttempt[i] = _getch(); _putch('*');
+       		
+		 
+		 
              cin >> passwordAttempt;
              int pwdID = checkFile(passwordAttempt, "pswds.dat");
              if (usrID == pwdID) { // check if the password belongs to this username
