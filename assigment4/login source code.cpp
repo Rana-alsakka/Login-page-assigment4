@@ -22,7 +22,7 @@ class LoginManager
 {
 public:
 
-    LoginManager()
+    LoginManager() 
     {
         accessGranted = 0;
     }
