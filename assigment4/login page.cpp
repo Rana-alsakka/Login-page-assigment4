@@ -6,11 +6,6 @@
 
 using namespace std;
 string username, password;
-class loginManger {
-public:
-    loginManger() {
-        accessGranted = 0;
-    }
 
 
     void login() {
@@ -150,48 +145,3 @@ public:
         file << "#ID:" << id;
         file.close();
     }
-private:
-        string usernameAttempt;
-        string passwordAttempt;
-        string username;
-        string password;
-        bool accessGranted;
-    };
-int main() {
-    int choice;
-    cout << " \t\t\t ------------------------login page------------------------\n";
-    cout
-            << "1.login" << endl
-            << "2.register" << endl
-            << "3.forgot password" << endl
-            << "4.exit"<< endl;
-    cin >> choice;
-       if( choice == 1) {
-           loginManger app;
-           app.login();
-           cin.get();
-       }
-       else if (choice ==2) {
-           //  registration();
-           loginManger loginMangerObj;
-           loginMangerObj.addUser();
-
-       }
-       else if (choice ==3) {
-           //  forgot();
-       }
-       else if (choice ==4) {
-           cout << " thank you ";
-            }
-        else
-            cout << " \t\t\t please select from the options above";
-    }
- void passCheck (){
-
-}
-void username_check(){
-
-}
-void email_check(){
-
-}
