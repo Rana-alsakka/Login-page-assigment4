@@ -9,5 +9,5 @@ public:
 private:
     string userNameAttempt;
     string passwordAttempt;
-    bool accessGranted;
+    bool accessGranted; 
 };
