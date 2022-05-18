@@ -257,7 +257,7 @@ public:
 
             newpass2[16] = { 0 };
             int u;
-            for (u = 0; i < 16;i++) {
+            for (u = 0; u < 16;u++) {
                 newpass2[u] = _getch(); _putch('*');
 
             }
